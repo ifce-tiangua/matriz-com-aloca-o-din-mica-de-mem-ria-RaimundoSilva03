@@ -1,47 +1,62 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-int main()
-{
-    int **mat, lin, col;
-    int i, j;
-    //printf("numero de linhas: \n");
+int main() {
+    int **matriz, i, j, lin, col;
+
+    // Leitura do número de linhas e colunas
+    //printf("Digite o número de linhas da matriz: ");
     scanf("%d", &lin);
-    //printf("numero de colunas: \n");
+    //printf("Digite o número de colunas da matriz: ");
     scanf("%d", &col);
+
+    // Verifica se a matriz é vazia
+    if (lin == 0 || col == 0) {
+        printf("[matriz vazia]\n");
+        return 0; // Sai do programa se a matriz for vazia
+    }
+
+    // Alocação de memória para a matriz
+    matriz = (int**)malloc(lin * sizeof(int*));
+    if (matriz == NULL) {
+        printf("Erro na alocação de memória.\n");
+        return 1; // Retorna erro se não conseguir alocar memória
+    }
     
-    if(lin <= 0 || col <= 0) {
-        printf("[matriz vazia]");
-        return 0;
-    }   
-    
-     //Alocar a matriz
-     mat = (int**)malloc(lin*sizeof(int*));
-       
-     for(int i = 0; i < lin; i++) {
-         mat[i] = (int*)malloc(col*sizeof(int));
-     }
-   //Leitura dos elementos
-   //printf("Elementos da matriz\n");
-   for(i = 0; i < lin; i++) {
-       for(j = 0; j < col; j++){
-           scanf("%d", &mat[i][j]);
-       }
-   }
-   //Exibição da matriz
-   //printf("Matriz\n");
-   for(i = 0; i < lin; i++) {
-       
-       for(j = 0; j < col; j++) {
-           printf("%d ", mat[i][j]);
-      
-       }
-       printf("\n");
-   } 
-   //Desaloca a memória
-   for(i = 0; i < lin; i++) {
-    free(mat[i]); 
-   }
-   free(mat);
+    for (i = 0; i < lin; i++) {
+        matriz[i] = (int*)malloc(col * sizeof(int));
+        if (matriz[i] == NULL) {
+            printf("Erro na alocação de memória.\n");
+            return 1; // Retorna erro se não conseguir alocar memória para a linha
+        }
+    }
+
+    // Leitura dos elementos da matriz
+    //printf("Digite os elementos da matriz:\n");
+    for (i = 0; i < lin; i++) {
+        for (j = 0; j < col; j++) {
+            scanf("%d", &matriz[i][j]);
+        }
+    }
+
+    // Apresentação dos dados da matriz
+    //printf("Matriz digitada:\n");
+    for (i = 0; i < lin; i++) {
+        for (j = 0; j < col; j++) {
+            printf("%d", matriz[i][j]);
+            if (j < col - 1) {
+                printf(" "); // Espaço entre os números, mas não após o último
+            }
+        }
+        printf("\n"); // Nova linha após cada linha da matriz
+    }
+
+    // Desalocação da memória
+    for (i = 0; i < lin; i++) {
+        free(matriz[i]);
+    }
+    free(matriz);
+
     return 0;
 }
+
